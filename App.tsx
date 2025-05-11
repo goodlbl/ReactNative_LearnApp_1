@@ -1,15 +1,12 @@
 // import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 
 
 export default function App() {
 
   const [num, setNum] = useState<number>(0);
-  const [str, setStr] = useState({
-    name: "Friend",
-    age: 25,
-  });
+  const [str, setStr] = useState("No Name");
 
   const forNum = () => {
     setNum(num + 1);
@@ -20,13 +17,16 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.ume}>
         <Text>Open up App.tsx to start working on your app!{"\n\n"}</Text>
-        <Text>{num}{"\n\n"}</Text>  
-        <Text>{str.name}</Text>
+        <Text>{num}{"\n\n"}</Text>
+        <Text>{str}{"\n\n"}</Text>
       </Text>
       <View style={styles.upbutton}>
         <Button title='Up' onPress={() => setNum(num + 1)}/>
         <Button title="Up and on" onPress={() => forNum()}/>
       </View>
+      <Text>{"\n\n\n"}</Text>
+      <TextInput style={styles.textinput} onChangeText={(value) => setStr(value)}/>
+      <TextInput keyboardType='numeric' maxLength={2} style={styles.textinput} onChangeText={(value) => setNum(+value)}/>
     </View>
   );
 }
@@ -44,6 +44,13 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   upbutton: {
-    backgroundColor: "#bde"
+    backgroundColor: "#bde",
+  },
+  textinput: {
+    backgroundColor: "#eee",
+    borderColor: "red",
+    borderWidth: 1,
+    width: "auto",
+    minWidth: 100,
   }
 });
