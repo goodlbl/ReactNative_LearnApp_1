@@ -1,5 +1,5 @@
 // import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
 
 interface ITd {
@@ -7,12 +7,17 @@ interface ITd {
   name: string
 }
 
-const ran = () => {return Math.floor(Math.random()*(999-100+1) + 100)}
+const ran = () => {return Math.floor(Math.random()*(99999-10000+1) + 10000)}
 
 export default function App() {
 
   const [td, setTd] = useState("");
   const [ltd, setLtd] = useState<ITd[]>([]);
+
+  const deleteTd = (id: number) => {
+    const newTd = ltd.filter(item => item.id !== id);
+    setLtd(newTd);
+  };
 
   return (
     <View style={styles.container}>
@@ -40,7 +45,14 @@ export default function App() {
           data={ltd}
           keyExtractor={item => item.id + ""}
           renderItem={({item}) => {
-            return <Text style={styles.fl}>{item.name}</Text>
+            return (
+              /* <TouchableOpacity onPress={() => deleteTd(item.id)}>
+                <Text style={styles.fl}>{item.name}</Text>
+              </TouchableOpacity> */
+              <Pressable style={({pressed}) => ({opacity: pressed ? 0.5 : 1})} onPress={() => deleteTd(item.id)}>
+                <Text style={styles.fl}>{item.name}</Text>
+              </Pressable>
+            )
           }}
         />
       </View>
