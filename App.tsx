@@ -2,84 +2,82 @@
 import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 
+interface ITd {
+  id: number;
+  name: string
+}
+
+const ran = () => {return Math.floor(Math.random()*(999-100+1) + 100)}
 
 export default function App() {
 
-  const [stu, setStu] = useState([
-    {id: 1, age: 18},
-    {id: 2, age: 18},
-    {id: 3, age: 18},
-    {id: 4, age: 18},
-    {id: 5, age: 18},
-    {id: 10, age: 18},
-    {id: 20, age: 18},
-    {id: 30, age: 18},
-    {id: 40, age: 18},
-    {id: 50, age: 18},
-    {id: 11, age: 18},
-    {id: 21, age: 18},
-    {id: 31, age: 18},
-    {id: 41, age: 18},
-    {id: 51, age: 18},
-    {id: 12, age: 18},
-    {id: 22, age: 18},
-    {id: 32, age: 18},
-    {id: 42, age: 18},
-    {id: 52, age: 18},
-    {id: 13, age: 18},
-    {id: 23, age: 18},
-    {id: 33, age: 18},
-    {id: 43, age: 18},
-    {id: 53, age: 18},
-    {id: 14, age: 18},
-    {id: 24, age: 18},
-    {id: 34, age: 18},
-    {id: 44, age: 18},
-    {id: 54, age: 18},
-  ]);
+  const [td, setTd] = useState("");
+  const [ltd, setLtd] = useState<ITd[]>([]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.txt}>Open up App.tsx!</Text>
-      <FlatList data={stu}
-      keyExtractor={item => item.id + ""}
-      renderItem={(data) => {
-        return (
-              <Text style={styles.otxt}>{data.item.id}</Text>
-            )
-      }}/>
-      <FlatList data={stu}
-      numColumns={2}
-      keyExtractor={item => item.id + ""}
-      renderItem={({item}) => {
-        return (
-              <Text style={styles.itxt}>{item.id}</Text>
-            )
-      }}/>
+
+      {/* header */}
+      <Text id={"header"} style={styles.header}>Todo app</Text>
+
+      {/* form */}
+      <View style={styles.form}>
+        <TextInput
+          style={styles.textinput}
+          onChangeText={(value) => setTd(value)}
+        />
+        <Button
+          title="Add work"
+          onPress={() => {setLtd([...ltd, {id:ran(), name:td}]); setTd("")}}
+        />
+      </View>
+
+      {/* list todo */}
+      <View style={styles.body}>
+        <Text>Todo now: {td}</Text>
+        <Text>Todo list:</Text>
+        <FlatList
+          data={ltd}
+          keyExtractor={item => item.id + ""}
+          renderItem={({item}) => {
+            return <Text style={styles.fl}>{item.name}</Text>
+          }}
+        />
+      </View>
+
     </View>
   );
 }
 
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#bfb',
+    fontSize: 50,
+    textAlign: "center",
+    paddingHorizontal: 30
+  },
   container: {
     paddingTop: 50,
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
-  txt: {
-    fontSize: 20,
+  form: {
+    paddingTop: 20,
   },
-  otxt: {
-    fontSize: 16,
-    marginBottom: 10,
-    backgroundColor: "cyan",
+  textinput: {
+    borderColor: "black",
+    borderWidth: 2,
+    backgroundColor: "#fdd",
+    paddingHorizontal: 5
   },
-  itxt: {
-    fontSize: 16,
-    marginBottom: 10,
-    backgroundColor: "pink",
-    paddingHorizontal: 30,
-    width:40
+  body: {
+  },
+  fl: {
+    paddingInlineEnd: 10,
+    backgroundColor: "#fef",
+    fontSize: 15,
+    borderColor: "red",
+    borderWidth: 2
   }
 });
