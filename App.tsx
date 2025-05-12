@@ -1,32 +1,30 @@
 // import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 
 
 export default function App() {
 
-  const [num, setNum] = useState<number>(0);
-  const [str, setStr] = useState("No Name");
-
-  const forNum = () => {
-    setNum(num + 1);
-    alert(num);
-  };
+  const [stu, setStu] = useState([
+    {id: 1, age: 18},
+    {id: 2, age: 18},
+    {id: 3, age: 18},
+    {id: 4, age: 18},
+    {id: 5, age: 18},
+  ]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.ume}>
-        <Text>Open up App.tsx to start working on your app!{"\n\n"}</Text>
-        <Text>{num}{"\n\n"}</Text>
-        <Text>{str}{"\n\n"}</Text>
-      </Text>
-      <View style={styles.upbutton}>
-        <Button title='Up' onPress={() => setNum(num + 1)}/>
-        <Button title="Up and on" onPress={() => forNum()}/>
-      </View>
-      <Text>{"\n\n\n"}</Text>
-      <TextInput style={styles.textinput} onChangeText={(value) => setStr(value)}/>
-      <TextInput keyboardType='numeric' maxLength={2} style={styles.textinput} onChangeText={(value) => setNum(+value)}/>
+      <Text style={styles.txt}>Open up App.tsx!</Text>
+      <ScrollView>
+        {
+          stu.map(item => {
+            return (
+              <Text style={styles.otxt} key={item.id}>{item.id}</Text>
+            )
+          })
+        }
+      </ScrollView>
     </View>
   );
 }
@@ -34,23 +32,16 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 50,
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
-  ume: {
-    textAlign: "center",
-    fontSize: 16
+  txt: {
+    fontSize: 20,
   },
-  upbutton: {
-    backgroundColor: "#bde",
-  },
-  textinput: {
-    backgroundColor: "#eee",
-    borderColor: "red",
-    borderWidth: 1,
-    width: "auto",
-    minWidth: 100,
+  otxt: {
+    fontSize: 16,
+    marginBottom: 10,
+    backgroundColor: "cyan",
   }
 });
