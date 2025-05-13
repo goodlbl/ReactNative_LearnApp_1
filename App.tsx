@@ -2,6 +2,7 @@
 import { Button, FlatList, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
 import { Alert } from 'react-native';
+import FlexBox from './components/flexbox';
 
 interface ITd {
   id: number;
@@ -34,10 +35,12 @@ export default function App() {
     setTd("");
   }
 
+  return (<FlexBox></FlexBox>)
+
   return (
     <TouchableWithoutFeedback
       onPress={()=>Keyboard.dismiss()}>
-        
+
       <View style={styles.container}>
 
         {/* header */}
