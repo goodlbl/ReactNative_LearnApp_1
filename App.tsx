@@ -1,6 +1,7 @@
 // import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, FlatList, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useState } from 'react';
+import { Alert } from 'react-native';
 
 interface ITd {
   id: number;
@@ -19,45 +20,63 @@ export default function App() {
     setLtd(newTd);
   };
 
+  const handleAddTd = () => {
+    if (!td) {
+      Alert.alert("Error in todo", "Toang roi", [
+        {text: "Oke", onPress: ()=>console.log("Oke")},
+        {text: "Toang", onPress: ()=>console.log("Toang")}
+      ]);
+      return;
+    }
+    else {
+      setLtd([...ltd, {id:ran(), name:td}]); 
+    }
+    setTd("");
+  }
+
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback
+      onPress={()=>Keyboard.dismiss()}>
+        
+      <View style={styles.container}>
 
-      {/* header */}
-      <Text id={"header"} style={styles.header}>Todo app</Text>
+        {/* header */}
+        <Text id={"header"} style={styles.header}>Todo app</Text>
 
-      {/* form */}
-      <View style={styles.form}>
-        <TextInput
-          style={styles.textinput}
-          onChangeText={(value) => setTd(value)}
-        />
-        <Button
-          title="Add work"
-          onPress={() => {setLtd([...ltd, {id:ran(), name:td}]); setTd("")}}
-        />
+        {/* form */}
+        <View style={styles.form}>
+          <TextInput
+            style={styles.textinput}
+            onChangeText={(value) => setTd(value)}
+          />
+          <Button
+            title="Add work"
+            onPress={() => handleAddTd()}
+          />
+        </View>
+
+        {/* list todo */}
+        <View style={styles.body}>
+          <Text>Todo now: {td}</Text>
+          <Text>Todo list:</Text>
+          <FlatList
+            data={ltd}
+            keyExtractor={item => item.id + ""}
+            renderItem={({item}) => {
+              return (
+                /* <TouchableOpacity onPress={() => deleteTd(item.id)}>
+                  <Text style={styles.fl}>{item.name}</Text>
+                </TouchableOpacity> */
+                <Pressable style={({pressed}) => ({opacity: pressed ? 0.5 : 1})} onPress={() => deleteTd(item.id)}>
+                  <Text style={styles.fl}>{item.name}</Text>
+                </Pressable>
+              )
+            }}
+          />
+        </View>
+
       </View>
-
-      {/* list todo */}
-      <View style={styles.body}>
-        <Text>Todo now: {td}</Text>
-        <Text>Todo list:</Text>
-        <FlatList
-          data={ltd}
-          keyExtractor={item => item.id + ""}
-          renderItem={({item}) => {
-            return (
-              /* <TouchableOpacity onPress={() => deleteTd(item.id)}>
-                <Text style={styles.fl}>{item.name}</Text>
-              </TouchableOpacity> */
-              <Pressable style={({pressed}) => ({opacity: pressed ? 0.5 : 1})} onPress={() => deleteTd(item.id)}>
-                <Text style={styles.fl}>{item.name}</Text>
-              </Pressable>
-            )
-          }}
-        />
-      </View>
-
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
