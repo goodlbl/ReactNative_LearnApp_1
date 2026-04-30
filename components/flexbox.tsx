@@ -16,7 +16,7 @@ const FlexBox = () => {
             </View>
 
             <View style={styles.i3}>
-                <Text>Ik 4</Text>
+                <Text>Ik 9</Text>
             </View>
         </View>
     );
